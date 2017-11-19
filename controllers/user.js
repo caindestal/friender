@@ -1,29 +1,33 @@
-// donde se van a encontrar todas las funciones para el modelo usuario
-
 'use strict'
-const User = require('../models/user') // se manda a llamar a el modelo user.js
-function signUp (req, res) { // se crea la funcion signUp que recibe un requerimiento y manda una respuesta
+
+const User = require('../models/user') // se importa modelo User, UserShema
+
+function signUp (req, res) { // función para registrar usuarios
   console.log('POST /Users')
   console.log(req.body)
-  const data = {
-    firt_name: req.body.firt_name, // Los 2 o un nombre del usuario
-    last_name: req.body.last_name, // Los 2 o un apellido del usuario
-    username: req.body.username, // nombre de usuario con el que el se registrar
-    password: req.body.password, //   contraseña con la cual el usuario se registrara
-    place_birth: req.body.place_birth,  // lugar de nacimiento del usuario
-    place_residence: req.body.place_residence, // lugar de residencia del usuario
-    birthdate: req.body.birthdate, // Fecha de nacimiento del usuario es obligatoria
-    email: req.body.email, // correo con el usuario se registro total mente obligario y tiene que ser unico
-    tel: req.body.tel, // telefono obligatorio del cliente
-    tel_Opc: req.body.tel_opc // telefono opcional del usuarios
+  const data = { // se guarda todos los datos del body en una constante 
+    name: req.body.name,
+    last_name: req.body.last_name, 
+    idcc: req.body.idcc, 
+    place_birth: req.body.place_birth,  
+    email: req.body.email,
+    tel: req.body.tel, 
+    username: req.body.username, 
+    nickname: req.body.nickname, 
+    password: req.body.password, 
+    birthdate: req.body.birthdate, 
+    sex: req.body.sex, 
+    place_residence: req.body.place_residence, 
+    tel_home: req.body.tel_home 
   }
-  const user = new User(data) // se guarda todos los datos almacenados en una constante y se manda a guardar esta constante
-  user.save((err) => { // se manda a guardar el usuario en la base de datos
-    if (err) return res.status(500).send({ message: `Error Create User: ${err}` }) // si paso algun error a mandar a guardar
-    console.log('user created')
-    console.log('Email :' + req.body.email)
-    console.log('Password :' + req.body.password)
-    return res.status(200) // manda el estatus 200 que fue correcto el guardado del usuario  guarda en la base de datos
+
+  const user = new User(data) // se crea nuevo usuario
+  user.save((err) => { // se guarda el usuario en la base de datos
+    if (err) return res.status(500).send({ message: `Error al registrar usuario: ${err}` }) // si paso algun error a mandar a guardar
+    console.log('usuario creado')
+    //console.log('Email :' + req.body.email)
+    //console.log('Password :' + req.body.password)
+    return res.redirect('/user/'+user._id) // manda el estatus 200 que fue correcto el guardado del usuario  guarda en la base de datos
   })
 }
 
@@ -67,7 +71,6 @@ function updateUser(req, res) { // funcion que actualiza la informacion del usua
 
 function deleteUser(req, res) { //funcion que borra registro de usuario
   let userId = req.params.userId
-  console.log('entra en esta funcion')
 
   User.findById(req.params.userId, (err, user) => {
   if (err) return res.status(500).send({message: 'Error al acceder al servidor'})
@@ -86,9 +89,9 @@ function deleteUser(req, res) { //funcion que borra registro de usuario
 
 module.exports =
 {
-  signUp, // palabra reservada para llamar a la funcion signUp
+  signUp, 
   signIn,
-  getUsers, // palabra reservada para llamar a la funcion getUsers
+  getUsers, 
   getUser,
   deleteUser,
   updateUser

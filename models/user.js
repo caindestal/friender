@@ -15,7 +15,7 @@ const Schema = mongoose.Schema
 const UserSchema = new Schema({
   name: String, // Nombres
   last_name: String, // Apellidos
-  idcc: {type: Number, unique: true, required: 'CC is obligatory'} // Cedula de identidad                           
+  idcc: {type: Number, unique: true, required: 'CC is obligatory'}, // Cedula de identidad                           
   place_birth: String,  // lugar de nacimiento
   email: { type: 'String', unique: true, lowercase: true, required: 'Email is obligatory' }, // correo, campo unico y requerido.
   tel: {type: Number, unique: true, required: 'Number Celphone is obligatory'}, // telefono, campo requerido
@@ -23,10 +23,10 @@ const UserSchema = new Schema({
   nickname: {type: 'String', maxlength: [20, 'Your nickname is extensive'], minlength: [4, 'Your nickname is short']}, // nombre de perfil
   password: {type: 'String', minlength: [7, 'Password must be greater than 7 characters']}, // contraseña del usuario, minimo 8 caracteres
   birthdate: { type: Date, required: 'birthdate is obligatory' }, // Fecha de nacimiento, campo requerido
-  sex: { type: String, enum: ['male', 'female']}, // tipo de sexo
+  sex: { type: String, enum: ['male', 'female'], required: 'Sexo es obligatorio'}, // tipo de sexo
   place_residence: String, // lugar de residencia 
-  profile_img: String, // imagen de perfíl
-  banner: String, //imagen de portada
+  profile_img: {type: String, default: null}, // imagen de perfíl
+  banner: {type: String, default: null}, //imagen de portada
   tel_home: Number, // Teléfono fijo 
   permision_level: {type: Number, default: 1}, // Nivel autorización de usuario
   singUpDate: {type: Date, default: Date.now()} // Fech registro

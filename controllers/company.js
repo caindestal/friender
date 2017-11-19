@@ -1,6 +1,7 @@
 'use strict'
 
 const Company = require('../models/company') // se manda a llamar a el modelo company.js
+
 function signUp (req, res) { // se crea la funcion signUp que recibe un requerimiento y manda una respuesta
   console.log('POST /Company')
   console.log(req.body)
